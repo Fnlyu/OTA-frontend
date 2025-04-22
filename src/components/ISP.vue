@@ -110,8 +110,8 @@
                         <label for="device-type" class="text-gray-600 mr-2">目标设备:</label>
                         <select id="device-type" v-model="ispOptions.deviceType"
                             class="border border-gray-300 rounded px-2 py-1" :disabled="uploading">
-                            <option value="1">STM32</option>
-                            <option value="2">ESP8266</option>
+                            <option value="1">STM32 ISP模式</option>
+                            <option value="2">YMODEM模式</option>
                             <option value="3">ESP32</option>
                             <!-- 可添加更多设备类型 -->
                         </select>
@@ -518,8 +518,8 @@
       // 获取设备类型名称
       const getDeviceTypeName = () => {
         switch (ispOptions.deviceType) {
-          case '1': return 'STM32'
-          case '2': return 'ESP8266'
+          case '1': return 'STM32 ISP模式'
+          case '2': return 'YMODEM模式'
           case '3': return 'ESP32'
           default: return `类型${ispOptions.deviceType}`
         }
@@ -539,9 +539,9 @@
           const view = new Uint8Array(buffer)
           
           // ESP32/ESP8266固件的魔术字节通常是0xE9
-          if (ispOptions.deviceType === '2' || ispOptions.deviceType === '3') {
-            return view[0] === 0xE9
-          }
+          // if (ispOptions.deviceType === '2' || ispOptions.deviceType === '3') {
+          //   return view[0] === 0xE9
+          // }
           
           // 对于其他设备类型，暂时不做特殊验证
           return true
