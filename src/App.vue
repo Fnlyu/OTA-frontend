@@ -42,7 +42,7 @@ export default {
           ]"
           class="py-2 px-4 font-medium transition-colors duration-200"
         >
-          ISP外部设备升级
+          外部设备升级
         </button>
       </div>
     </div>

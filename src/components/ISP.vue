@@ -2,8 +2,6 @@
     <div class="
         flex flex-col
         pb-0
-        
-        
         rounded-lg
         shadow-md
         tracking-wide
@@ -12,18 +10,18 @@
         transition-all
         duration-150
         bg-gray-50
-        
+        max-w-full
+        overflow-hidden
         ">
-        <div class="p-5">
-            <h2 class="text-xl font-bold text-gray-700 mb-4">ESP32C3 ISP 固件升级工具</h2>
+        <div class="p-3 sm:p-5">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-700 mb-4">ESP32C3 固件升级工具</h2>
             <!-- <h2 class="mt-5 pr-5 text-gray-500">ESP32C3 ISP 固件升级工具</h2> -->
-            
-            <!-- 连接设置 -->
+              <!-- 连接设置 -->
             <div name="connection-settings" class="mb-5">
                 <h3 class="text-md font-semibold text-gray-600 mb-2">连接设置</h3>
-                <div class="flex items-center space-x-3 justify-center">
-                    <div class="relative mt-5">
-                        <label for="device-ip" class="mt-5 pr-5 text-gray-500">IP</label>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 sm:justify-center">
+                    <div class="flex flex-col">
+                        <label for="device-ip" class="text-gray-500 text-sm mb-1">IP地址</label>
                         <input
                             type="text"
                             spellcheck="false"
@@ -36,22 +34,20 @@
                                 py-3
                                 placeholder-gray-400
                                 text-gray-600
-                                relative
                                 bg-white
                                 rounded
                                 text-sm
                                 border
                                 outline-none
                                 focus:outline-none focus:ring
+                                w-full sm:w-auto
+                                min-w-0
                             "
                             placeholder="192.168.1.10"
                             />
-                        <!-- <label for="device-ip" class="text-gray-600 mr-2">设备IP:</label> -->
-                        <!-- <input type="text" id="device-ip" v-model="serverInfo.host"
-                            class="border border-gray-300 rounded px-2 py-1 w-32" placeholder="192.168.1.10" /> -->
                     </div>
-                    <div class="relative mt-5">
-                        <label for="device-port" class="mt-5 pr-5 text-gray-500">Port</label>
+                    <div class="flex flex-col">
+                        <label for="device-port" class="text-gray-500 text-sm mb-1">端口</label>
                         <input type="text" id="device-port" v-model="serverInfo.port"
                             class="
                                 font-mono
@@ -59,18 +55,16 @@
                                 py-3
                                 placeholder-gray-400
                                 text-gray-600
-                                relative
                                 bg-white
                                 rounded
                                 text-sm
                                 border
                                 outline-none
                                 focus:outline-none focus:ring
+                                w-full sm:w-24
+                                min-w-0
                             "
                             placeholder="3241" />
-                        <!-- <label for="device-port" class="text-gray-600 mr-2">端口:</label> -->
-                        <!-- <input type="text" id="device-port" v-model="serverInfo.port"
-                            class="border border-gray-300 rounded px-2 py-1 w-16" placeholder="3241" /> -->
                     </div>
                     <button class="
                             text-blue-500
@@ -82,17 +76,16 @@
                             font-bold
                             uppercase
                             text-sm
-                            mt-5
                             px-5
                             py-3
                             rounded
                             outline-none
                             focus:outline-none
-                            mr-1
-                            ml-5
                             ease-linear
                             transition-all
                             duration-150
+                            w-full sm:w-auto
+                            mt-2 sm:mt-6
                             "
                             :disabled="connecting"
                             @click="connectToDevice">
@@ -100,26 +93,24 @@
                     </button>
                 </div>
                 <div v-if="errorMsg" class="text-red-500 text-sm mt-1">{{ errorMsg }}</div>
-            </div>
-
-            <!-- ISP 设置 -->
+            </div>            <!-- ISP 设置 -->
             <div name="isp-settings" class="mb-5" v-if="connected || connecting">
                 <h3 class="text-md font-semibold text-gray-600 mb-2">ISP 设置</h3>
-                <div class="flex flex-wrap items-center space-x-4 mb-2">
-                    <div class="flex items-center">
-                        <label for="device-type" class="text-gray-600 mr-2">目标设备:</label>
+                <div class="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center">
+                        <label for="device-type" class="text-gray-600 text-sm sm:mr-2 mb-1 sm:mb-0">目标设备:</label>
                         <select id="device-type" v-model="ispOptions.deviceType"
-                            class="border border-gray-300 rounded px-2 py-1" :disabled="uploading">
+                            class="border border-gray-300 rounded px-2 py-2 text-sm w-full sm:w-auto" :disabled="uploading">
                             <option value="1">STM32 ISP模式</option>
                             <option value="2">YMODEM模式</option>
-                            <option value="3">ESP32</option>
+                            <option value="3">其他</option>
                             <!-- 可添加更多设备类型 -->
                         </select>
                     </div>
-                    <div class="flex items-center">
-                        <label for="baudrate" class="text-gray-600 mr-2">波特率:</label>
+                    <div class="flex flex-col sm:flex-row sm:items-center">
+                        <label for="baudrate" class="text-gray-600 text-sm sm:mr-2 mb-1 sm:mb-0">波特率:</label>
                         <select id="baudrate" v-model="ispOptions.baudrate"
-                            class="border border-gray-300 rounded px-2 py-1" :disabled="uploading">
+                            class="border border-gray-300 rounded px-2 py-2 text-sm w-full sm:w-auto" :disabled="uploading">
                             <option value="9600">9600</option>
                             <option value="19200">19200</option>
                             <option value="38400">38400</option>
@@ -128,60 +119,65 @@
                         </select>
                     </div>
                 </div>
-            </div>
-
-            <!-- 固件文件选择 -->
+            </div>            <!-- 固件文件选择 -->
             <div name="firmware-upload" class="mb-5" v-if="connected">
                 <h3 class="text-md font-semibold text-gray-600 mb-2">固件选择</h3>
-                <div class="flex items-center space-x-3">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                     <input type="file" id="firmware-file" ref="fileInput" class="hidden" @change="handleFileSelect" />
                     <button @click="triggerFileSelect" class="
-                border border-gray-300
-                bg-white
-                hover:bg-gray-100
-                text-gray-700
-                px-4
-                py-2
-                rounded
-                text-sm
-              " :disabled="uploading">
+                        border border-gray-300
+                        bg-white
+                        hover:bg-gray-100
+                        text-gray-700
+                        px-4
+                        py-2
+                        rounded
+                        text-sm
+                        w-full sm:w-auto
+                        flex-shrink-0
+                      " :disabled="uploading">
                         选择固件文件
                     </button>
-                    <span v-if="fileName" class="text-gray-600 text-sm">{{ fileName }}</span>
-                    <span v-if="fileSize" class="text-gray-500 text-xs">({{ formatSize(fileSize) }})</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 min-w-0">
+                        <span v-if="fileName" class="text-gray-600 text-sm truncate">{{ fileName }}</span>
+                        <span v-if="fileSize" class="text-gray-500 text-xs flex-shrink-0">({{ formatSize(fileSize) }})</span>
+                    </div>
                 </div>
-            </div>
-
-            <!-- 升级操作 -->
+            </div>            <!-- 升级操作 -->
             <div name="upgrade-actions" class="mb-5" v-if="connected && fileName">
-                <button @click="startUpgrade" v-if="!uploading" class="
-              bg-green-500
-              hover:bg-green-600
-              text-white
-              px-6
-              py-2
-              rounded
-              text-sm
-              mr-3
-            " :disabled="!fileSelected">
-                    开始升级
-                </button>
-                <button @click="cancelUpgrade" v-if="uploading"
-                    class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded text-sm mr-3">
-                    取消升级
-                </button>
-                <button @click="disconnect" v-if="!uploading" class="
-              border border-gray-300
-              bg-white
-              hover:bg-gray-100
-              text-gray-700
-              px-4
-              py-2
-              rounded
-              text-sm
-            ">
-                    断开连接
-                </button>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <button @click="startUpgrade" v-if="!uploading" class="
+                      bg-green-500
+                      hover:bg-green-600
+                      text-white
+                      px-6
+                      py-2
+                      rounded
+                      text-sm
+                      w-full sm:w-auto
+                      flex-shrink-0
+                    " :disabled="!fileSelected">
+                        开始升级
+                    </button>
+                    <button @click="cancelUpgrade" v-if="uploading"
+                        class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded text-sm w-full sm:w-auto flex-shrink-0">
+                        取消升级
+                    </button>
+                    <button @click="disconnect" v-if="!uploading" class="
+                      border border-gray-300
+                      bg-white
+                      hover:bg-gray-100
+                      text-gray-700
+                      px-4
+                      py-2
+                      rounded
+                      text-sm
+                      w-full sm:w-auto
+                      flex-shrink-0
+                    ">
+                        断开连接
+                    </button>
+                </div>
             </div>
 
             <!-- 升级进度 -->
@@ -193,35 +189,34 @@
                 <div class="w-full bg-gray-200 rounded-full h-2">
                     <div class="bg-blue-500 h-2 rounded-full transition-all duration-300"
                         :style="{ width: progressValue + '%' }"></div>
-                </div>
-                <div class="flex justify-between mt-1">
+                </div>                <div class="flex flex-col sm:flex-row sm:justify-between gap-1 mt-1">
                     <span class="text-xs text-gray-500">
                         已发送: {{ formatSize(currentSize) }} / {{ formatSize(totalSize) }}
                     </span>
                     <span class="text-xs text-gray-500">速度: {{ formatSpeed }}</span>
                 </div>
-            </div>
-
-            <!-- 日志输出 -->
+            </div>            <!-- 日志输出 -->
             <div name="log-output" v-if="connected || errorMsg" class="mt-3">
                 <h3 class="text-md font-semibold text-gray-600 mb-2">操作日志</h3>
                 <div class="
-              h-40
+              h-32 sm:h-40
               overflow-y-auto
               bg-gray-100
               border border-gray-300
               rounded
               p-2
-              text-sm
+              text-xs sm:text-sm
               font-mono
+              break-words
             " ref="logContainer">
                     <div v-for="(log, index) in logs" :key="index" :class="{
                 'text-red-600': log.type === 'error',
                 'text-yellow-600': log.type === 'warning',
                 'text-green-600': log.type === 'success',
                 'text-gray-800': log.type === 'info',
-              }">
-                        {{ log.time }} | {{ log.message }}
+              }" class="leading-relaxed">
+                        <span class="inline-block w-16 sm:w-20 flex-shrink-0">{{ log.time }}</span>
+                        <span class="break-all">| {{ log.message }}</span>
                     </div>
                 </div>
             </div>
@@ -263,7 +258,7 @@
       
       // 服务器信息
       const serverInfo = reactive({
-        host: 'dap.local',
+        host: '192.168.1.108',
         port: '3241'
       })
       
@@ -380,8 +375,7 @@
           ws.onmessage = (event) => {
             handleMessage(event.data)
           }
-          
-          ws.onclose = () => {
+            ws.onclose = () => {
             if (connecting.value) {
               addLog('连接失败', 'error')
               errorMsg.value = '无法连接到设备，请检查IP和端口是否正确'
@@ -390,6 +384,9 @@
               errorMsg.value = '连接已关闭，升级可能未完成'
             } else if (!upgradeComplete.value) {
               addLog('连接已关闭')
+            } else {
+              // 升级完成后的正常断开，不显示错误信息
+              addLog('连接已断开', 'info')
             }
             
             connecting.value = false
@@ -408,8 +405,7 @@
           errorMsg.value = '无法创建连接'
         }
       }
-      
-      // 处理WebSocket消息
+        // 处理WebSocket消息
       const handleMessage = (data) => {
         try {
           // 解析消息
@@ -420,8 +416,22 @@
             return
           }
           
+          // 如果升级已完成或已取消，忽略某些错误消息
+          if ((upgradeComplete.value || !uploading.value) && message.code !== 0) {
+            // 检查是否是"OTA has not started"类型的错误
+            const errorMsg = message.data?.msg || '未知错误'
+            if (errorMsg.includes('OTA has not started') || 
+                errorMsg.includes('not started') ||
+                errorMsg.includes('已停止') ||
+                errorMsg.includes('未启动')) {
+              // 升级完成后忽略这类错误消息
+              return
+            }
+          }
+          
           if (message.code !== 0) {
-            addLog(`错误: ${message.data?.msg || '未知错误'}`, 'error')
+            const errorMsg = message.data?.msg || '未知错误'
+            addLog(`错误: ${errorMsg}`, 'error')
             return
           }
           
@@ -436,13 +446,21 @@
           if (message.data?.state) {
             switch (message.data.state) {
               case 'ready':
-                sendNextChunk()
+                if (uploading.value) {
+                  sendNextChunk()
+                }
                 break
               case 'done':
                 upgradeComplete.value = true
                 uploading.value = false
                 progressValue.value = 100
                 addLog('固件升级成功完成！', 'success')
+                // 升级完成后短暂延迟断开连接，避免收到额外的错误消息
+                setTimeout(() => {
+                  if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.close()
+                  }
+                }, 1000)
                 break
               case 'cancel':
                 addLog('升级已取消', 'warning')
