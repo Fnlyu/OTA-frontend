@@ -54,7 +54,7 @@ export default {
     </div>
 
     <div name="github" class="flex justify-center">
-      <a href="https://github.com/windowsair/corsacOTA">
+      <a href="https://github.com/Fnlyu/OTA-frontend">
         <svg
           viewBox="0 0 48 48"
           class="w-12"
